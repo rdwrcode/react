@@ -20,10 +20,8 @@ var getHostComponentFromComposite = require('getHostComponentFromComposite');
 var instantiateReactComponent = require('instantiateReactComponent');
 var invariant = require('invariant');
 
-import type { ReactElement } from 'ReactElementType';
-
 export type TestRendererOptions = {
-  createNodeMock: (element: ReactElement) => any,
+  createNodeMock: (element: ReactElement<any>) => any,
 };
 
 var defaultTestOptions = {
@@ -128,7 +126,8 @@ ReactTestInstance.prototype.unmount = function(nextElement) {
     transaction.perform(function() {
       ReactReconciler.unmountComponent(
         component,
-        false
+        false, /* safely */
+        false /* skipLifecycle */
       );
     });
     ReactUpdates.ReactReconcileTransaction.release(transaction);
